@@ -1,6 +1,6 @@
 class FileReader
 
-  def read_simple(filename)
+  def read_simple(filename) #Чтение простых файлов (1 элемент = 1 строчка)
     begin
       f = File.new(filename, 'r:UTF-8')
       lines = f.readlines
@@ -12,7 +12,7 @@ class FileReader
     lines
   end
   
-  def read_complex(filename)
+  def read_complex(filename) #Чтение сложных файлов (1 элемент = 4 строчки)
     begin
       f = File.new(filename, 'r:UTF-8')
       hashes = []

@@ -46,7 +46,6 @@ class Game
 
   def next_room #Метод генерации следующей комнаты
       cls
-      puts
       puts "У тебя #{@life} жизней"
       @room_number += 1
       puts
