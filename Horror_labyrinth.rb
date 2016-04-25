@@ -1,35 +1,54 @@
-require_relative "game.rb"
-require_relative "file_reader.rb"
-require_relative "codepage_fix.rb"
+require_relative 'lib/game.rb'
+require_relative 'lib/file_reader.rb'
+require_relative 'lib/codepage_fix.rb'
 
-puts "\nИГРА \"ЛАБИРИНТ СТРАХА\""
+start_time = Time.now
+hour = start_time.strftime('%H').to_i
+
+greeting = case hour
+             when 0..4 then 'Доброй ночи'
+             when 5..10 then 'Доброе утро'
+             when 11..17 then 'Добрый день'
+             when 18..22 then 'Добрый вечер'
+             when 23..24 then 'Доброй ночи'
+             else 'Здравствуй'
+           end
+
+# Заставка
+puts 'ИГРА "ЛАБИРИНТ СТРАХА"'
 sleep 1
-puts "\nЭто очень страшная и ужасная игра!"
+puts 'Это очень страшная и ужасная игра!'
 sleep 1
-puts "\nНо если ты не боишься, то давай познакомимся!" # Заставка
-puts "Как тебя зовут?"
-name = STDIN.gets.encode("UTF-8").chomp #Узнаем имя
-puts "\nПриятно познакомится, #{name}!"
-#gender = nil
-#until gender == "мальчик" || gender == "девочка" #Узнаем пол, может пригодится потом
-#puts "\nСкажи, ты мальчик или девочка?"
-#gender = STDIN.gets.chomp.encode("UTF-8").downcase
-#end
-puts "\nДобро пожаловать в Лабиринт Страха! У-ХА-ХА!"
-puts "\nТы входишь в первую комнату и видишь перед собой три двери."
-choice = nil
-until choice == 1 || choice == 2 || choice == 3 do #Выбираем размер лабиринта
-	puts "\nВ какую дверь ты пойдешь?"
-	puts "1. В левую дверь с надписью \"Маленький лабиринт\""
-	puts "2. В среднюю дверь с надписью \"Средний лабиринт\""
-	puts "3. В правую дверь с надписью \"Большой лабиринт\""
-	choice = STDIN.gets.to_i
+puts
+puts "#{greeting}, храбрый воин! давай познакомимся" 
+puts 'Как тебя зовут?'
+name = STDIN.gets.encode("UTF-8").chomp
+puts "Приятно познакомится, #{name}!"
+puts 'Добро пожаловать в Лабиринт Страха! У-ХА-ХА!'
+sleep 1
+puts
+puts 'Ты входишь в круглую комнату и видишь перед собой три двери.'
+size = nil
+until size == 1 || size == 2 || size == 3 do #Выбираем размер лабиринта
+	puts 'В какую дверь ты пойдешь?'
+  puts
+	puts '1. В левую дверь с надписью "Маленький лабиринт"'
+	puts '2. В среднюю дверь с надписью "Средний лабиринт"'
+	puts '3. В правую дверь с надписью "Большой лабиринт"'
+	size = STDIN.gets.to_i
 end
 
-game = Game.new(choice,name)
+game = Game.new(size,name)
 
-game.next_room
+while game.status == 0 do
+  game.next_room
+end
 
 game.result
 
-puts "К О Н Е Ц"
+finish_time = Time.now
+time_diff = finish_time - start_time
+
+puts "Проведено за игрой - #{time_diff.to_i} секунд"
+puts 
+puts 'К О Н Е Ц'
