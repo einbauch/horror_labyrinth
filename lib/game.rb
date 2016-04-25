@@ -75,24 +75,64 @@ class Game
       @status = 1 if @room_number >= @size
   end
 
+  def result #Метод вывода результата игры
+    cls
+    case @status
+    when -1 #Проигрыш
+      @score = @dead_monster * 100 + @friend_monster * 100 + @run_monster * 100 + @math_solved * 100 + @guessed_riddle * 100 + @potions * 100
+      puts
+      puts 'К сожалению, тебе не удалось выбраться из Лабиринта Страха.'
+      puts
+      puts 'Результаты игры:'
+      puts "Пройдено комнат: #{@room_number} из #{@size}"
+      puts "Победы над монстрами: #{@dead_monster}"
+      puts "Новые друзья-монстры: #{@friend_monster}"
+      puts "Удалось убежать от монстров: #{@run_monster}"
+      puts "Правильно решено примеров: #{@math_solved}"
+      puts "Разгадано загадок: #{@guessed_riddle}"
+      puts "Найдено лечебных зелий: #{@potions}"
+      puts
+      puts "Заработано очков: #{@score}"
+    when 1 #Выигрыш
+      @score = @dead_monster * 100 + @friend_monster * 100 + @run_monster * 100 + @math_solved * 100 + @guessed_riddle * 100 + @life * 100 + @size * 100 + @potions * 100
+      puts
+      puts 'УРА! Тебе удалось найти выход из Лабиринта Страха!'
+      puts 'За твои храбрые подвиги тебе присваивается звание:'
+      puts "#{@name} - #{@titles.sample}"
+      puts
+      puts 'Результаты игры:'
+      puts "Победы над монстрами: #{@dead_monster}"
+      puts "Новые друзья-монстры: #{@friend_monster}"
+      puts "Удалось убежать от монстров: #{@run_monster}"
+      puts "Правильно решено примеров: #{@math_solved}"
+      puts "Разгадано загадок: #{@guessed_riddle}"
+      puts "Найдено лечебных зелий: #{@potions}"
+      puts "Осталось жизней: #{@life}"
+      puts
+      puts "Заработано очков: #{@score}"
+    end
+  end
+
+  private
+  
   def monster_room # генерация комнаты с монстром
     room_choice = rand(0..@monster_rooms.length-1)
-    
+
     puts @monster_rooms[room_choice][:description]
     puts
     puts @monster_rooms[room_choice][:choice1]
     puts @monster_rooms[room_choice][:choice2]
     puts @monster_rooms[room_choice][:choice3]
-    
+
     encounter_outcome = rand(1..100)
     action = nil
-    
+
     until action == 1 || action == 2 || action == 3 do
       puts
       puts 'Введи 1, 2 или 3'
       action = STDIN.gets.chomp.to_i
     end
-    
+
     case encounter_outcome
       when 1..50
         case action
@@ -154,7 +194,7 @@ class Game
     puts @riddles[room_choice][:choice1]
     puts @riddles[room_choice][:choice2]
     puts @riddles[room_choice][:choice3]
-    
+
     action = nil
 
     until action == 1 || action == 2 || action == 3 do
@@ -179,14 +219,14 @@ class Game
       gets
     end
   end
-  
+
   def empty_room # генерация пустой комнаты
     puts 'Ты оказываешься в пустой комнате, тут нет ни монстров, ни загадок! Ты решаешь передохнуть и затем идешь дальше'
     puts
     puts 'Нажми ENTER, чтобы перейти дальше'
     gets
   end
-  
+
   def math_room # генерация комнаты с примером
     puts "Ты заходишь в комнату, которая выглядит прямо как твой класс в школе, только за партами сидят скелеты! На стене на школьной доске ты видишь надпись: \n\"Если ты правильно решишь этот пример, дверь в следующую комнату откроется, \nНу а если неправильно - то скелеты оживут и нападут на тебя!\""
     math_one = rand (1..15)
@@ -242,47 +282,9 @@ class Game
       end
     end
   end
-  
+
   def cls
     system 'clear' or system 'cls'
-  end
-  
-  def result #Метод вывода результата игры
-    cls
-    case @status
-    when -1 #Проигрыш
-      @score = @dead_monster * 100 + @friend_monster * 100 + @run_monster * 100 + @math_solved * 100 + @guessed_riddle * 100 + @potions * 100
-      puts
-      puts 'К сожалению, тебе не удалось выбраться из Лабиринта Страха.'
-      puts
-      puts 'Результаты игры:'
-      puts "Пройдено комнат: #{@room_number} из #{@size}"
-      puts "Победы над монстрами: #{@dead_monster}"
-      puts "Новые друзья-монстры: #{@friend_monster}"
-      puts "Удалось убежать от монстров: #{@run_monster}"
-      puts "Правильно решено примеров: #{@math_solved}"
-      puts "Разгадано загадок: #{@guessed_riddle}"
-      puts "Найдено лечебных зелий: #{@potions}"
-      puts
-      puts "Заработано очков: #{@score}"
-    when 1 #Выигрыш
-      @score = @dead_monster * 100 + @friend_monster * 100 + @run_monster * 100 + @math_solved * 100 + @guessed_riddle * 100 + @life * 100 + @size * 100 + @potions * 100
-      puts
-      puts 'УРА! Тебе удалось найти выход из Лабиринта Страха!'
-      puts 'За твои храбрые подвиги тебе присваивается звание:'
-      puts "#{@name} - #{@titles.sample}"
-      puts
-      puts 'Результаты игры:'
-      puts "Победы над монстрами: #{@dead_monster}"
-      puts "Новые друзья-монстры: #{@friend_monster}"
-      puts "Удалось убежать от монстров: #{@run_monster}"
-      puts "Правильно решено примеров: #{@math_solved}"
-      puts "Разгадано загадок: #{@guessed_riddle}"
-      puts "Найдено лечебных зелий: #{@potions}"
-      puts "Осталось жизней: #{@life}"
-      puts
-      puts "Заработано очков: #{@score}"
-    end
   end
 
 end

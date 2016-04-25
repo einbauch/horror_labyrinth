@@ -23,7 +23,7 @@ if greeting == 'Доброй ночи'
   puts 'Введите секретный пароль:'
   password = STDIN.noecho(&:gets).encode('UTF-8').chomp
   hex = Digest::SHA2.hexdigest(password)
-  abort "Введен неверный пароль! Игра завершена! Спокойной ночи!" unless hex == 'fc8e0b6a01b162fb110a35fb8245757a6a5818a90d8a08b5ddb0dcb86d26d85e'
+  abort 'Введен неверный пароль! Игра завершена! Спокойной ночи!' unless hex == 'fc8e0b6a01b162fb110a35fb8245757a6a5818a90d8a08b5ddb0dcb86d26d85e'
 end
 
 # Заставка
@@ -35,7 +35,7 @@ sleep 1
 puts
 puts "#{greeting}, храбрый воин! давай познакомимся" 
 puts 'Как тебя зовут?'
-name = STDIN.gets.encode("UTF-8").chomp
+name = STDIN.gets.encode('UTF-8').chomp
 puts "Приятно познакомится, #{name}!"
 puts 'Добро пожаловать в Лабиринт Страха! У-ХА-ХА!'
 sleep 1
@@ -62,6 +62,6 @@ game.result
 finish_time = Time.now
 time_diff = finish_time - start_time
 
-puts "Проведено за игрой - #{time_diff.to_i} секунд"
+puts "Проведено за игрой - #{(time_diff/60).to_i} минут #{(time_diff%60).to_i} секунд"
 puts 
 puts 'К О Н Е Ц'
