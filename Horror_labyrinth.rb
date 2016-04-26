@@ -53,6 +53,8 @@ end
 
 game = Game.new(size,name)
 
+puts 'Твое приключение начинается!'
+
 while game.status == 0 do
   game.next_room
 end
